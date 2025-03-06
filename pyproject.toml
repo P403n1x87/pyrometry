@@ -1,0 +1,105 @@
+[project]
+name = "pyrometry"
+dynamic = ["version"]
+description = 'Flame graph comparison library'
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "Gabriele N. Tornetta", email = "gabriele.n.tornetta@gmail.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "numpy~=2.2",
+  "scipy~=1.7",
+]
+
+[project.urls]
+Documentation = "https://github.com/p403n1x87/pyrometry#readme"
+Issues = "https://github.com/p403n1x87/pyrometry/issues"
+Source = "https://github.com/p403n1x87/pyrometry"
+
+[tool.hatch.envs.tests]
+template = "tests"
+dependencies = [
+  "pytest>=5.4.2",
+  "pytest-asyncio",
+  "pytest-cov>=2.8.1",
+]
+[tool.hatch.envs.tests.scripts]
+tests = "pytest --cov=pyrometry --cov-report=term-missing --cov-report=xml {args}"
+
+[[tool.hatch.envs.tests.matrix]]
+python = ["3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
+
+[tool.hatch.envs.checks]
+python = "3.10"
+template = "checks"
+dependencies = [
+  "mypy~=1.0",
+  "flake8~=5.0.4",
+  "flake8-annotations~=2.9.1",
+  "flake8-black",
+  "flake8-bugbear~=22.9.23",
+  "flake8-docstrings~=1.6.0",
+  "flake8-import-order~=0.18.1",
+  "flake8-isort~=5.0.0",
+]
+
+[tool.hatch.envs.checks.scripts]
+typing = "mypy --show-error-codes --install-types --non-interactive {args} austin/ test/"
+linting = "flake8 {args} austin/ test/ "
+
+[tool.hatch.envs.coverage]
+python = "3.12"
+template = "coverage"
+dependencies = [
+  "coverage[toml]",
+  "codecov",
+]
+
+[tool.hatch.envs.coverage.scripts]
+cov = "coverage xml --fail-under=50"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+  "/.github",
+  "/docs",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["pyrometry"]
+
+[tool.coverage.run]
+branch = true
+source = ["pyrometry"]
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.isort]
+force_single_line = true
+lines_after_imports = 2
+profile = "black"
+
+[tool.mypy]
+ignore_missing_imports = true
+
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
