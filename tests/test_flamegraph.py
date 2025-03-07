@@ -1,7 +1,8 @@
 from pathlib import Path
 from random import randint as r
 
-from pyrometry.flamegraph import FlameGraph, decompose_4way
+from pyrometry.analysis import decompose_4way
+from pyrometry.flamegraph import FlameGraph
 
 TESTS = Path(__file__).parent
 DATA = TESTS / "data"
