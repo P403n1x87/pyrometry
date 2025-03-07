@@ -7,7 +7,7 @@ flame graphs.
 
 ## Usage
 
-To parse a flame graph from a collapsed stacks format, use `FlameGraph.parse`
+To parse a flame graph from a collapsed stacks format, use `FlameGraph.load`
 from `pyrometry.flamegraph`.
 
 To perform the differential analysis of two samples of flame graphs, collect

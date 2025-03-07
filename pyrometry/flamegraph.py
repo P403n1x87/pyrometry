@@ -69,16 +69,21 @@ class FlameGraph(Map):
         return sum(abs(v) for v in self.values())
 
     @classmethod
-    def parse(cls, file: Path) -> "FlameGraph":
+    def loads(cls, text: str) -> "FlameGraph":
         """Parse a flame graph from a file."""
         fg: Map = cls()
 
-        for line in (_.strip() for _ in file.open()):
+        for line in text.splitlines():
             stack, _, m = line.rpartition(" ")
 
             fg += cls({stack: float(m)})
 
         return t.cast(FlameGraph, fg)
+
+    @classmethod
+    def load(cls, file: Path) -> "FlameGraph":
+        """Parse a flame graph from a file."""
+        return cls.loads(file.read_text())
 
     def __str__(self) -> str:
         return "\n".join(f"{k} {v}" for k, v in self.items())

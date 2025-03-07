@@ -9,7 +9,7 @@ DATA = TESTS / "data"
 
 
 def test_flamegraph_parse() -> None:
-    assert FlameGraph.parse(DATA / "flamegraph.fg") == FlameGraph(
+    assert FlameGraph.load(DATA / "flamegraph.fg") == FlameGraph(
         {
             "a": 100000,
             "b": 200000,
