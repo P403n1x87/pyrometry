@@ -1,0 +1,41 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+concurrency: 
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
+
+    name: Tests with Python ${{ matrix.python-version }} on Linux
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}-dev
+
+      - name: Install hatch
+        run: pip install hatch
+
+      - name: Run tests
+        run: hatch -e "tests.py${{ matrix.python-version }}" run tests
+
+      - name: Publish coverage metrics
+        run: |
+          hatch -e coverage run cov
+          hatch -e coverage run codecov
+        if: matrix.python-version == '3.12'
+        env:
+          CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}

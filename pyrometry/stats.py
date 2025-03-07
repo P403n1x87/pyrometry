@@ -58,6 +58,6 @@ def hotelling_two_sample_test(
     # Compute the array of the stacks that are significantly different
     fs = f_pdf.ppf(1 - p_v)
     ws = pooled_cov.diagonal() * fs / g
-    m: list[bool] = [(d**2 >= w) for d, w in zip(delta, ws)]
+    m: t.List[bool] = [(d**2 >= w) for d, w in zip(delta, ws)]
 
     return delta, statistic, p_value, m

@@ -22,8 +22,8 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dependencies = [
-  "numpy~=2.2",
-  "scipy~=1.7",
+  "numpy",
+  "scipy",
 ]
 
 [project.urls]
@@ -45,7 +45,7 @@ tests = "pytest --cov=pyrometry --cov-report=term-missing --cov-report=xml {args
 python = ["3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
 
 [tool.hatch.envs.checks]
-python = "3.10"
+python = "3.12"
 template = "checks"
 dependencies = [
   "mypy~=1.0",
@@ -59,8 +59,8 @@ dependencies = [
 ]
 
 [tool.hatch.envs.checks.scripts]
-typing = "mypy --show-error-codes --install-types --non-interactive {args} austin/ test/"
-linting = "flake8 {args} austin/ test/ "
+typing = "mypy --show-error-codes --install-types --non-interactive {args} pyrometry/ tests/"
+linting = "flake8 {args} pyrometry/ tests/ "
 
 [tool.hatch.envs.coverage]
 python = "3.12"

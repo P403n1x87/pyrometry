@@ -7,7 +7,7 @@ TESTS = Path(__file__).parent
 DATA = TESTS / "data"
 
 
-def test_flamegraph_parse():
+def test_flamegraph_parse() -> None:
     assert FlameGraph.parse(DATA / "flamegraph.fg") == FlameGraph(
         {
             "a": 100000,
@@ -21,8 +21,8 @@ def test_flamegraph_parse():
     )
 
 
-def test_decompose_4way():
-    def n():
+def test_decompose_4way() -> None:
+    def n() -> int:
         return r(-10, 10)
 
     x = [
