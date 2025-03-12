@@ -37,10 +37,15 @@ def decompose_2way(
     threshold: t.Optional[float] = None,
 ) -> t.Tuple[FlameGraph, FlameGraph]:
     """Decompose the difference X - Y into positive and negative parts."""
+    assert x, "x must not be empty"
+    assert y, "y must not be empty"
+
+    fg_class = type(x[0])
+
     delta, _, _ = compare(x, y, threshold)
     return (
-        FlameGraph({k: v for k, v in delta.items() if v > 0}),
-        FlameGraph({k: -v for k, v in delta.items() if v < 0}),
+        fg_class({k: v for k, v in delta.items() if v > 0}),
+        fg_class({k: -v for k, v in delta.items() if v < 0}),
     )
 
 
@@ -50,14 +55,19 @@ def decompose_4way(
     threshold: t.Optional[float] = None,
 ) -> t.Tuple[FlameGraph, FlameGraph, FlameGraph, FlameGraph]:
     """Decompose the difference X - Y into appeared, disappeared, grown, and shrunk parts."""
+    assert x, "x must not be empty"
+    assert y, "y must not be empty"
+
+    fg_class = type(x[0])
+
     x_domain = set().union(*(x.supp() for x in x))
     y_domain = set().union(*(y.supp() for y in y))
 
     plus, minus = decompose_2way(x, y, threshold)
 
-    appeared = FlameGraph({k: v for k, v in plus.items() if k not in y_domain})
-    disappeared = FlameGraph({k: v for k, v in minus.items() if k not in x_domain})
-    grown = FlameGraph({k: v for k, v in plus.items() if k in y_domain})
-    shrunk = FlameGraph({k: v for k, v in minus.items() if k in x_domain})
+    appeared = fg_class({k: v for k, v in plus.items() if k not in y_domain})
+    disappeared = fg_class({k: v for k, v in minus.items() if k not in x_domain})
+    grown = fg_class({k: v for k, v in plus.items() if k in y_domain})
+    shrunk = fg_class({k: v for k, v in minus.items() if k in x_domain})
 
     return appeared, disappeared, grown, shrunk
