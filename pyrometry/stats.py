@@ -46,8 +46,10 @@ def hotelling_two_sample_test(
     y_mean = np.mean(Y, axis=0)
     delta = x_mean - y_mean
 
-    x_cov = np.cov(X, rowvar=False)
-    y_cov = np.cov(Y, rowvar=False)
+    # np.cov returns a scalar for a single feature, but the statistic needs a
+    # p x p matrix to invert.
+    x_cov = np.atleast_2d(np.cov(X, rowvar=False))
+    y_cov = np.atleast_2d(np.cov(Y, rowvar=False))
     pooled_cov = ((nx - 1) * x_cov + (ny - 1) * y_cov) / (nx + ny - 2)
 
     # Compute the F statistic from the Hotelling T^2 statistic
