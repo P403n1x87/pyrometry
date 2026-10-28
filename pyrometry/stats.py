@@ -7,7 +7,7 @@ from scipy.stats import f
 
 def hotelling_two_sample_test(
     X: npt.NDArray[np.int32], Y: npt.NDArray[np.int32], p_v: float = 0.01
-) -> t.Tuple[npt.NDArray[np.int32], float, float, list]:
+) -> t.Tuple[npt.NDArray[np.float64], float, float, t.List[bool]]:
     """Perform a two-sample Hotelling T^2 test on the given data.
 
     Parameters
